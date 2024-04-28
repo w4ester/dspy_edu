@@ -121,7 +121,7 @@ def openai_finetune(name, target):
     # if path + stuff exists, load the tuple from it
     try:
         with open(training_data_path) as f:
-            jobname, ft = ujson.loads(f.readline())
+            jobname, ft = ujson.loads(f.readline(5_000_000))
 
         if openai_check_finetune(jobname):
             return jobname, ft
