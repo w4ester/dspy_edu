@@ -41,7 +41,7 @@ class YouRM(dspy.Retrieve):
             results = requests.get(
                 f"https://api.ydc-index.io/search?query={query}",
                 headers=headers,
-            ).json()
+            timeout=60).json()
             for hit in results["hits"][:k]:
                 for snippet in hit["snippets"]:
                     docs.append(snippet)
