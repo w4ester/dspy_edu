@@ -1,10 +1,9 @@
 import os
 from typing import List, Optional, Union
 
-import requests
-
 import dspy
 from dsp.utils import dotdict
+from security import safe_requests
 
 
 class YouRM(dspy.Retrieve):
@@ -38,8 +37,7 @@ class YouRM(dspy.Retrieve):
         docs = []
         for query in queries:
             headers = {"X-API-Key": self.ydc_api_key}
-            results = requests.get(
-                f"https://api.ydc-index.io/search?query={query}",
+            results = safe_requests.get(f"https://api.ydc-index.io/search?query={query}",
                 headers=headers,
             ).json()
             for hit in results["hits"][:k]:
