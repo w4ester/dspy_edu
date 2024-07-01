@@ -1,4 +1,3 @@
-import random
 import threading
 
 import tqdm
@@ -9,6 +8,7 @@ from dspy.primitives import Example
 
 from .teleprompt import Teleprompter
 from .vanilla import LabeledFewShot
+import secrets
 
 # TODO: metrics should return an object with __bool__ basically, but fine if they're more complex.
 # They can also be sortable.
@@ -131,7 +131,7 @@ class BootstrapFewShot(Teleprompter):
         # Unbootstrapped training examples
 
         self.validation = [x for idx, x in enumerate(self.trainset) if idx not in bootstrapped]
-        random.Random(0).shuffle(self.validation)
+        secrets.SystemRandom().Random(0).shuffle(self.validation)
 
         self.validation = self.valset or self.validation
 
@@ -208,7 +208,7 @@ class BootstrapFewShot(Teleprompter):
         return success
 
     def _train(self):
-        rng = random.Random(0)
+        rng = secrets.SystemRandom().Random(0)
         raw_demos = self.validation
 
         for name, predictor in self.student.named_predictors():

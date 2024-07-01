@@ -1,5 +1,4 @@
 import os
-import random
 import time
 
 import ujson
@@ -12,6 +11,7 @@ from .bootstrap import BootstrapFewShot
 
 # from dspy.primitives import Example
 from .teleprompt import Teleprompter
+import secrets
 
 # from .vanilla import LabeledFewShot
 
@@ -109,7 +109,7 @@ class BootstrapFinetune(Teleprompter):
                     finetune_data[name_].append(dict(prompt=prompt, completion=completion))
 
         for name_ in finetune_data:
-            random.Random(0).shuffle(finetune_data[name_])
+            secrets.SystemRandom().Random(0).shuffle(finetune_data[name_])
             print(name_, len(finetune_data[name_]))
 
         #
@@ -136,7 +136,7 @@ class BootstrapFinetune(Teleprompter):
 
         compiler_config = {
             "save": "".join(
-                random.Random(time.time()).choices(string.ascii_uppercase + string.digits, k=13),
+                secrets.SystemRandom().Random(time.time()).choices(string.ascii_uppercase + string.digits, k=13),
             ),  # https://stackoverflow.com/a/2257449/1493011
             "peft": peft,
             "fp16": False,

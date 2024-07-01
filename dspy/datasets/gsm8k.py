@@ -1,7 +1,7 @@
-import random
 
 import tqdm
 from datasets import load_dataset
+import secrets
 
 
 class GSM8K:
@@ -38,10 +38,10 @@ class GSM8K:
 
             official_test.append(dict(question=question, gold_reasoning=gold_reasoning, answer=answer))
 
-        rng = random.Random(0)
+        rng = secrets.SystemRandom().Random(0)
         rng.shuffle(official_train)
 
-        rng = random.Random(0)
+        rng = secrets.SystemRandom().Random(0)
         rng.shuffle(official_test)
 
         trainset = official_train[:200]

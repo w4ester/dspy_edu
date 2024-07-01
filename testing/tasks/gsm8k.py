@@ -1,4 +1,3 @@
-import random
 
 import tqdm
 from datasets import load_dataset
@@ -7,6 +6,7 @@ import dspy
 from dspy.datasets.gsm8k import gsm8k_metric
 
 from .base_task import BaseTask
+import secrets
 
 
 class CoT(dspy.Module):
@@ -48,10 +48,10 @@ class GSM8KTask(BaseTask):
 
             official_test.append(dict(question=question, gold_reasoning=gold_reasoning, answer=answer))
 
-        rng = random.Random(0)
+        rng = secrets.SystemRandom().Random(0)
         rng.shuffle(official_train)
 
-        rng = random.Random(0)
+        rng = secrets.SystemRandom().Random(0)
         rng.shuffle(official_test)
 
         trainset = official_train[:2000]

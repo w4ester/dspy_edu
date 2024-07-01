@@ -1,10 +1,10 @@
 import logging
-import random
 from typing import List, Optional
 
 from pydantic import BaseModel
 
 import dspy
+import secrets
 
 
 class DescriptionSignature(dspy.Signature):
@@ -73,7 +73,7 @@ class SyntheticDataGenerator:
 
         signature_class = type(class_name, (dspy.Signature,), fields)
         generator = dspy.Predict(signature_class, n=additional_samples_needed)
-        response = generator(sindex=str(random.randint(1, additional_samples_needed)))
+        response = generator(sindex=str(secrets.SystemRandom().randint(1, additional_samples_needed)))
 
         return [dspy.Example({field_name: getattr(completion, field_name) for field_name in properties.keys()})
                 for completion in response.completions]
