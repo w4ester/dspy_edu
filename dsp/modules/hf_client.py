@@ -104,7 +104,7 @@ class HFClientTGI(HFModel):
 
 @CacheMemory.cache(ignore=['arg'])
 def send_hftgi_request_v01(arg, url, ports, **kwargs):
-    return requests.post(arg, **kwargs)
+    return requests.post(arg, **kwargs, timeout=60)
 
 # @functools.lru_cache(maxsize=None if cache_turn_on else 0)
 @NotebookCacheMemory.cache(ignore=['arg'])
@@ -114,7 +114,7 @@ def send_hftgi_request_v01_wrapped(arg, url, ports, **kwargs):
 
 @CacheMemory.cache
 def send_hftgi_request_v00(arg, **kwargs):
-    return requests.post(arg, **kwargs)
+    return requests.post(arg, **kwargs, timeout=60)
 
 
 class HFClientVLLM(HFModel):
@@ -209,7 +209,7 @@ class HFClientVLLM(HFModel):
 
 @CacheMemory.cache(ignore=['arg'])
 def send_hfvllm_request_v01(arg, url, port, **kwargs):
-    return requests.post(arg, **kwargs)
+    return requests.post(arg, **kwargs, timeout=60)
 
 # @functools.lru_cache(maxsize=None if cache_turn_on else 0)
 @NotebookCacheMemory.cache(ignore=['arg'])
@@ -218,11 +218,11 @@ def send_hfvllm_request_v01_wrapped(arg, url, port, **kwargs):
 
 @CacheMemory.cache
 def send_hfvllm_request_v00(arg, **kwargs):
-    return requests.post(arg, **kwargs)
+    return requests.post(arg, **kwargs, timeout=60)
 
 @CacheMemory.cache
 def send_hfvllm_chat_request_v00(arg, **kwargs):
-    return requests.post(arg, **kwargs)
+    return requests.post(arg, **kwargs, timeout=60)
 
 
 class HFServerTGI:
@@ -491,4 +491,4 @@ class HFClientSGLang(HFModel):
 
 @CacheMemory.cache
 def send_hfsglang_request_v00(arg, **kwargs):
-    return requests.post(arg, **kwargs)
+    return requests.post(arg, **kwargs, timeout=60)

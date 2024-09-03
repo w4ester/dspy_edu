@@ -51,7 +51,7 @@ class ClarifaiRM(dspy.Retrieve):
 
     def retrieve_hits(self, hits):
         header = {"Authorization": f"Key {self.pat}"}
-        request = requests.get(hits.input.data.text.url, headers=header)
+        request = requests.get(hits.input.data.text.url, headers=header, timeout=60)
         request.encoding = request.apparent_encoding
         requested_text = request.text
         return requested_text

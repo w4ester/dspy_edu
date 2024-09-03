@@ -73,7 +73,7 @@ class FuncInspector:
     parsed_calls = self.calls.copy()
     self.parse(parsed_calls, delete_empty=True)
     data = {'id': id, 'content': parsed_calls}
-    response = requests.post(post_url, json=data)
+    response = requests.post(post_url, json=data, timeout=60)
     
     if response.status_code == 201:
       print('Data created successfully')
