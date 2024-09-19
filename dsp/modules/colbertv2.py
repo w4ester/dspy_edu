@@ -5,6 +5,7 @@ import requests
 
 from dsp.modules.cache_utils import CacheMemory, NotebookCacheMemory
 from dsp.utils import dotdict
+from security import safe_requests
 
 # TODO: Ideally, this takes the name of the index and looks up its port.
 
@@ -42,7 +43,7 @@ def colbertv2_get_request_v2(url: str, query: str, k: int):
     ), "Only k <= 100 is supported for the hosted ColBERTv2 server at the moment."
 
     payload = {"query": query, "k": k}
-    res = requests.get(url, params=payload, timeout=10)
+    res = safe_requests.get(url, params=payload, timeout=10)
 
     topk = res.json()["topk"][:k]
     topk = [{**d, "long_text": d["text"]} for d in topk]

@@ -3,10 +3,9 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Union
 
-import requests
-
 import dspy
 from dsp.utils import dotdict
+from security import safe_requests
 
 try:
     from clarifai.client.search import Search
@@ -51,7 +50,7 @@ class ClarifaiRM(dspy.Retrieve):
 
     def retrieve_hits(self, hits):
         header = {"Authorization": f"Key {self.pat}"}
-        request = requests.get(hits.input.data.text.url, headers=header)
+        request = safe_requests.get(hits.input.data.text.url, headers=header)
         request.encoding = request.apparent_encoding
         requested_text = request.text
         return requested_text
