@@ -1,12 +1,12 @@
 import glob
 import os
-import random
 
 import pandas as pd
 
 import dspy
 
 from .base_task import BaseTask
+import secrets
 
 
 def load_scone(dirname):
@@ -60,8 +60,8 @@ class ScoNeTask(BaseTask):
         # Load and configure the datasets.
         all_train = load_scone("ScoNe/scone_nli/train")
 
-        random.seed(1)
-        random.shuffle(all_train)
+        secrets.SystemRandom().seed(1)
+        secrets.SystemRandom().shuffle(all_train)
 
         # 1000 random train, 500 random dev:
         self.trainset, self.devset = all_train[: 1000], all_train[1000: 1500]

@@ -1,5 +1,4 @@
 import math
-import random
 import sys
 import textwrap
 from collections import defaultdict
@@ -14,6 +13,7 @@ from dspy.signatures import Signature
 from dspy.signatures.signature import signature_to_template
 from dspy.teleprompt import BootstrapFewShot
 from dspy.teleprompt.teleprompt import Teleprompter
+import secrets
 
 """
 USAGE SUGGESTIONS:
@@ -364,7 +364,7 @@ class MIPRO(Teleprompter):
         BOLD = "\033[1m"
         ENDC = "\033[0m"  # Resets the color to default
 
-        random.seed(seed)
+        secrets.SystemRandom().seed(seed)
 
         estimated_task_model_calls_wo_module_calls = len(trainset) * num_trials  # M * T * P
         estimated_prompt_model_calls = 10 + self.num_candidates * len(
@@ -438,7 +438,7 @@ class MIPRO(Teleprompter):
                         print(f"Creating basic bootstrap: {i}/{self.num_candidates-1}")
 
                     # Create a new basic bootstrap few - shot program .
-                    rng = random.Random(i)
+                    rng = secrets.SystemRandom().Random(i)
                     shuffled_trainset = trainset[:]  # Create a copy of devset
                     rng.shuffle(shuffled_trainset)  # Shuffle the copy
                     tp = BootstrapFewShot(

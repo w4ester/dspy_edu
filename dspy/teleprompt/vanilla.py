@@ -1,6 +1,6 @@
-import random
 
 from .teleprompt import Teleprompter
+import secrets
 
 
 class LabeledFewShot(Teleprompter):
@@ -14,7 +14,7 @@ class LabeledFewShot(Teleprompter):
         if len(self.trainset) == 0:
             return self.student
 
-        rng = random.Random(0)
+        rng = secrets.SystemRandom().Random(0)
 
         for predictor in self.student.predictors():
             if sample:
