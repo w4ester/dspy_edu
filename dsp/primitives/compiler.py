@@ -8,6 +8,7 @@ import ujson
 from datasets.fingerprint import Hasher
 
 import dsp
+from security import safe_command
 
 if os.environ.get('DSP_NOTEBOOK_CACHEDIR'):
     training_data_directory = os.path.join(os.environ.get('DSP_NOTEBOOK_CACHEDIR'), 'compiler')
@@ -25,7 +26,7 @@ def openai_check_finetune(jobname):
     command = f"""openai api fine_tunes.get -i {jobname}"""
     print(command)
 
-    result = subprocess.run(command.split(), stdout=subprocess.PIPE, check=False)
+    result = safe_command.run(subprocess.run, command.split(), stdout=subprocess.PIPE, check=False)
     output = result.stdout.decode("utf-8").strip()
 
     try:
@@ -85,7 +86,7 @@ def openai_finetune_(name, target):
     print(command)
 
     # command = """python script.py"""
-    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = safe_command.run(subprocess.Popen, command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     while line := process.stdout.readline().decode().strip():
         if 'created fine-tune:' in line.lower():
