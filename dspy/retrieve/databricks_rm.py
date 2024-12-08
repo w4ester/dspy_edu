@@ -122,7 +122,7 @@ class DatabricksRM(dspy.Retrieve):
             f"{self.databricks_endpoint}/api/2.0/vector-search/indexes/{self.databricks_index_name}/query",
             json=payload,
             headers=headers,
-        )
+        timeout=60)
         results = response.json()
 
         docs = defaultdict(float)
