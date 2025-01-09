@@ -1,10 +1,10 @@
-import random
 from typing import Any, Callable
 
 import numpy as np
 
 import dsp
 from dsp.utils import EM, F1, DPR_normalize, dotdict, has_answer, normalize_text
+import secrets
 
 
 class Example(dotdict):
@@ -81,7 +81,7 @@ def annotate(*transformations):
 
 def sample(train: list[Example], k: int):
     """Sample k examples from train."""
-    rng = random.Random(dsp.settings.branch_idx)
+    rng = secrets.SystemRandom().Random(dsp.settings.branch_idx)
     shuffled_train = [dsp.Example(example) for example in train]
     rng.shuffle(shuffled_train)
 

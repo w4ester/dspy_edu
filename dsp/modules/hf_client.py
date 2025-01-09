@@ -1,5 +1,4 @@
 import os
-import random
 import re
 import shutil
 import subprocess
@@ -11,6 +10,7 @@ import requests
 
 from dsp.modules.cache_utils import CacheMemory, NotebookCacheMemory
 from dsp.modules.hf import HFModel, openai_to_hf
+import secrets
 
 ERRORS = (Exception)
 
@@ -72,7 +72,7 @@ class HFClientTGI(HFModel):
         # response = requests.post(self.url + "/generate", json=payload, headers=self.headers)
 
         response = send_hftgi_request_v01_wrapped(
-            f"{self.url}:{random.Random().choice(self.ports)}" + "/generate",
+            f"{self.url}:{secrets.SystemRandom().Random().choice(self.ports)}" + "/generate",
             url=self.url,
             ports=tuple(self.ports),
             json=payload,

@@ -1,5 +1,4 @@
 import os
-import random
 import subprocess
 import time
 
@@ -8,6 +7,7 @@ import ujson
 from datasets.fingerprint import Hasher
 
 import dsp
+import secrets
 
 if os.environ.get('DSP_NOTEBOOK_CACHEDIR'):
     training_data_directory = os.path.join(os.environ.get('DSP_NOTEBOOK_CACHEDIR'), 'compiler')
@@ -71,7 +71,7 @@ def simulate(program, input_examples):
                 name, template, inputs, outputs = stage['name'], stage['template'], stage['inputs'], stage['outputs']
                 training_data.append(convert_to_training_point2(prediction.get(name), inputs, outputs, template))
     
-    r = random.Random(0)
+    r = secrets.SystemRandom().Random(0)
     r.shuffle(training_data)
 
     return training_data

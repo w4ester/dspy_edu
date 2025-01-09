@@ -1,4 +1,3 @@
-import random
 from collections.abc import Mapping
 from typing import List, Tuple, Union
 
@@ -6,6 +5,7 @@ from datasets import load_dataset
 
 import dspy
 from dspy.datasets.dataset import Dataset
+import secrets
 
 
 class DataLoader(Dataset):
@@ -80,7 +80,7 @@ class DataLoader(Dataset):
         if not isinstance(dataset, list):
             raise ValueError(f"Invalid dataset provided of type {type(dataset)}. Please provide a list of examples.")
         
-        return random.sample(dataset, n, *args, **kwargs)
+        return secrets.SystemRandom().sample(dataset, n, *args, **kwargs)
 
     def train_test_split(
         self,
@@ -90,10 +90,10 @@ class DataLoader(Dataset):
         random_state: int = None,
     ) -> Mapping[str, List[dspy.Example]]:
         if random_state is not None:
-            random.seed(random_state)
+            secrets.SystemRandom().seed(random_state)
 
         dataset_shuffled = dataset.copy()
-        random.shuffle(dataset_shuffled)
+        secrets.SystemRandom().shuffle(dataset_shuffled)
 
         if train_size is not None and isinstance(train_size, float) and (0 < train_size < 1):
             train_end = int(len(dataset_shuffled) * train_size)

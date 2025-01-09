@@ -1,8 +1,8 @@
-import random
 
 from datasets import load_dataset
 
 from dspy.datasets.dataset import Dataset
+import secrets
 
 
 class HotPotQA(Dataset):
@@ -32,7 +32,7 @@ class HotPotQA(Dataset):
 
                 official_train.append(example)
 
-        rng = random.Random(0)
+        rng = secrets.SystemRandom().Random(0)
         rng.shuffle(official_train)
 
         self._train = official_train[:len(official_train)*75//100]

@@ -1,5 +1,4 @@
 import copy
-import random
 
 from langchain_core.pydantic_v1 import Extra
 from langchain_core.runnables import Runnable
@@ -11,6 +10,7 @@ from dspy.predict.predict import Predict
 from dspy.primitives.prediction import Prediction
 from dspy.signatures.field import InputField, OutputField
 from dspy.signatures.signature import infer_prefix
+import secrets
 
 # TODO: This class is currently hard to test, because it hardcodes gpt-4 usage:
 # gpt4T = dspy.OpenAI(model='gpt-4-1106-preview', max_tokens=4000, model_type='chat')
@@ -43,7 +43,7 @@ class LangChainPredict(Predict, Runnable): #, RunnableBinding):
         try: langchain_template = '\n'.join([msg.prompt.template for msg in prompt.messages])
         except AttributeError: langchain_template = prompt.template
 
-        self.stage = random.randbytes(8).hex()
+        self.stage = secrets.SystemRandom().randbytes(8).hex()
         self.signature, self.output_field_key = self._build_signature(langchain_template)
         self.config = config
         self.reset()

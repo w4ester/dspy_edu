@@ -1,4 +1,3 @@
-import random
 
 import dspy
 from dspy.evaluate.evaluate import Evaluate
@@ -6,6 +5,7 @@ from dspy.teleprompt.teleprompt import Teleprompter
 
 from .bootstrap import BootstrapFewShot
 from .vanilla import LabeledFewShot
+import secrets
 
 # TODO: Don't forget dealing with the raw demos.
 # TODO: Deal with the (pretty common) case of having a metric for filtering and a separate metric for eval.
@@ -98,8 +98,8 @@ class BootstrapFewShotWithRandomSearch(Teleprompter):
             else:
                 assert seed >= 0, seed
 
-                random.Random(seed).shuffle(trainset2)
-                size = random.Random(seed).randint(self.min_num_samples, self.max_num_samples)
+                secrets.SystemRandom().Random(seed).shuffle(trainset2)
+                size = secrets.SystemRandom().Random(seed).randint(self.min_num_samples, self.max_num_samples)
 
                 teleprompter = BootstrapFewShot(
                     metric=self.metric,

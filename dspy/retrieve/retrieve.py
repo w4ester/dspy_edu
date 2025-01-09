@@ -1,9 +1,9 @@
-import random
 from typing import List, Optional, Union
 
 import dsp
 from dspy.predict.parameter import Parameter
 from dspy.primitives.prediction import Prediction
+import secrets
 
 
 class Retrieve(Parameter):
@@ -12,7 +12,7 @@ class Retrieve(Parameter):
     desc = "takes a search query and returns one or more potentially relevant passages from a corpus"
 
     def __init__(self, k=3):
-        self.stage = random.randbytes(8).hex()
+        self.stage = secrets.SystemRandom().randbytes(8).hex()
         self.k = k
 
     def reset(self):

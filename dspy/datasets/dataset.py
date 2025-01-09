@@ -1,8 +1,8 @@
-import random
 import uuid
 
 from dsp.utils import dotdict
 from dspy import Example
+import secrets
 
 
 class Dataset:
@@ -64,7 +64,7 @@ class Dataset:
         data = list(data)
 
         # Shuffle the data irrespective of the requested size.
-        base_rng = random.Random(seed)
+        base_rng = secrets.SystemRandom().Random(seed)
 
         if self.do_shuffle:
             base_rng.shuffle(data)
