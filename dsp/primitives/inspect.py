@@ -1,9 +1,9 @@
 import inspect
 import json
-import random
 import string
 
 import requests
+import secrets
 
 
 class FuncInspector:
@@ -67,7 +67,7 @@ class FuncInspector:
 
   def view_data(self):
     chars = string.digits + string.ascii_lowercase
-    id = ''.join(random.choices(chars, k=8))
+    id = ''.join(secrets.SystemRandom().choices(chars, k=8))
 
     post_url = 'http://127.0.0.1:5000/log-item'
     parsed_calls = self.calls.copy()

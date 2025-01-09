@@ -1,4 +1,3 @@
-import random
 from collections.abc import Mapping
 from typing import List, Optional, Union
 
@@ -23,6 +22,7 @@ from .signatures import (
     UpdateTaskDescriptionBasedOnFeedback,
 )
 from .utils import format_examples
+import secrets
 
 __all__ = [
     "Synthesizer",
@@ -193,7 +193,7 @@ class Synthesizer:
 
         for idx in trange(0, num_data, batch_size, desc="Generating Synthetic Data"):
             iter_temperature = 0.7+0.01*idx
-            iter_seed = random.randint(0, 1000000)
+            iter_seed = secrets.SystemRandom().randint(0, 1000000)
 
             kwargs = {
                 "task_description": task_description,
@@ -204,7 +204,7 @@ class Synthesizer:
             if self.config.num_example_for_optim:
                 if not isinstance(ground_source, list):
                     raise ValueError("Ground source must be a list of examples when `num_example_for_optim` is provided.")
-                kwargs["ground_source"] = random.sample(ground_source, k=self.config.num_example_for_optim)
+                kwargs["ground_source"] = secrets.SystemRandom().sample(ground_source, k=self.config.num_example_for_optim)
             
             with dspy.context(lm=self.input_lm):
                 inputs = self.input_predictor(**kwargs)

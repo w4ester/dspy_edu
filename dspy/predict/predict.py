@@ -1,4 +1,3 @@
-import random
 
 from pydantic import BaseModel
 
@@ -6,11 +5,12 @@ import dsp
 from dspy.predict.parameter import Parameter
 from dspy.primitives.prediction import Prediction
 from dspy.signatures.signature import ensure_signature, signature_to_template
+import secrets
 
 
 class Predict(Parameter):
     def __init__(self, signature, **config):
-        self.stage = random.randbytes(8).hex()
+        self.stage = secrets.SystemRandom().randbytes(8).hex()
         self.signature = ensure_signature(signature)
         self.config = config
         self.reset()

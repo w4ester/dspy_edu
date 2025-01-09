@@ -1,4 +1,3 @@
-import random
 import re
 from typing import Union
 
@@ -6,6 +5,7 @@ import numpy as np
 
 from dsp.modules import LM
 from dsp.utils.utils import dotdict
+import secrets
 
 
 class DummyLM(LM):
@@ -123,8 +123,8 @@ class DummyVectorizer:
         self.max_length = max_length
         self.n_gram = n_gram
         self.P = 10**9 + 7  # A large prime number
-        random.seed(123)
-        self.coeffs = [random.randrange(1, self.P) for _ in range(n_gram)]
+        secrets.SystemRandom().seed(123)
+        self.coeffs = [secrets.SystemRandom().randrange(1, self.P) for _ in range(n_gram)]
 
     def _hash(self, gram):
         """Hashes a string using a polynomial hash function."""
