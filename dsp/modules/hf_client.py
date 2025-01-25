@@ -11,6 +11,7 @@ import requests
 
 from dsp.modules.cache_utils import CacheMemory, NotebookCacheMemory
 from dsp.modules.hf import HFModel, openai_to_hf
+from security import safe_command
 
 ERRORS = (Exception)
 
@@ -255,7 +256,7 @@ class HFServerTGI:
             model_name = os.path.sep + os.path.basename(self.model_weights_dir) + os.path.sep + os.path.basename(model_path)
         docker_command = f'docker run --gpus {gpus} --shm-size 1g -p {port}:80 -v {self.model_weights_dir}:{os.path.sep + os.path.basename(self.model_weights_dir)} -e {env_variable} ghcr.io/huggingface/text-generation-inference:1.1.0 --model-id {model_name} --num-shard {num_shard} --max-input-length {max_input_length} --max-total-tokens {max_total_tokens} --max-best-of {max_best_of}'
         print(f"Connect Command: {docker_command}")
-        docker_process = subprocess.Popen(docker_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        docker_process = safe_command.run(subprocess.Popen, docker_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         connected = False
         output = []
         while True:
